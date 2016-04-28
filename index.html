@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+
+<html>
+  <head>
+
+  </head>
+  <body>
+    <div id="plaatje"></div>
+    <button id="button">Klik voor het volledige plaatje</button>
+  </body>
+</html>
+
+<script type="text/javascript">
+  var plaatje = document.getElementById("plaatje");
+  var button = document.getElementById("button");
+
+  window.onload = function () {loadProxy()};
+  button.onclick = function () {loadProxy("full")};
+
+  var loadProxy = function (full) {
+    console.log("test");
+    getJSON(full)
+    .then(function (data) {
+      console.log(data);
+    })
+    .catch(function (value) {
+      alert(value);
+    });
+  };
+
+  //maak de ajax call voor geolocatie
+  var getJSON = function (full) {
+    var that = this;
+    var promise = new Promise(function (resolve, reject) {
+      var request = new XMLHttpRequest();
+      request.open('GET', "./proxy.php?full=" + full, true);
+
+      request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+          // Success!
+          var data = JSON.parse(request.responseText);
+          resolve(data);
+        } else {
+          // We reached our target server, but it returned an error
+          reject('Server gaf een error');
+        }
+      };
+      request.onerror = function() {
+        // There was a connection error of some sort
+        reject('Geen verbinding met server');
+      };
+
+      request.send();
+    });
+    return promise;
+  };
+</script>
