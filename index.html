@@ -14,10 +14,10 @@
   var plaatje = document.getElementById("plaatje");
   var button = document.getElementById("button");
 
-  window.onload = function () {loadProxy()};
-  button.onclick = function () {loadProxy("full")};
+  window.onload = function () {getImage()};
+  button.onclick = function () {getImage("full")};
 
-  var loadProxy = function (full) {
+  var getImage = function (full) {
     console.log("test");
     getJSON(full)
     .then(function (data) {
