@@ -5,23 +5,30 @@
 
   </head>
   <body>
-    <div id="plaatje"></div>
-    <button id="button">Klik voor het volledige plaatje</button>
+    <div id="imageContainer"><img id="image" alt="klik voor het volledige plaatje"></div>
   </body>
 </html>
 
 <script type="text/javascript">
-  var plaatje = document.getElementById("plaatje");
-  var button = document.getElementById("button");
+  var div = document.getElementById("imageContainer");
+  var img = document.getElementById("image");
 
   window.onload = function () {getImage()};
-  button.onclick = function () {getImage("full")};
+  img.onclick = function () {getImage("full")};
 
   var getImage = function (full) {
     console.log("test");
     getJSON(full)
     .then(function (data) {
-      console.log(data);
+
+      if (data && data.size) {
+        if (data.size.x) img.setAttribute("width", data.size.x + "px");
+        if (data.size.y) img.setAttribute("height", data.size.y + "px");
+      }
+
+      if (data && data.src) {
+        img.setAttribute("src", data.src);
+      }
     })
     .catch(function (value) {
       alert(value);
